@@ -1,0 +1,52 @@
+{
+	# Provider-managed HTTPS mode.
+	# The hosting provider terminates public HTTPS before traffic reaches this server.
+	# Caddy serves HTTP internally and reverse-proxies to Spark services.
+	auto_https off
+}
+
+http://{$SPARK_DOMAIN} {
+	encode zstd gzip
+
+	handle /v1/* {
+		reverse_proxy spark-api:8787
+	}
+
+	handle /health/* {
+		reverse_proxy spark-api:8787
+	}
+
+	handle /health {
+		reverse_proxy spark-api:8787
+	}
+
+	handle /hub {
+		redir /hub/ 308
+	}
+
+	# Hub is built with PUBLIC_HUB_BASE_PATH=/hub, so page routes must keep /hub.
+	# Static files are physically served from /_app and /favicon.svg inside the Hub container.
+	handle /hub/_app/* {
+		uri strip_prefix /hub
+		reverse_proxy spark-hub:4174
+	}
+
+	handle /hub/favicon.svg {
+		uri strip_prefix /hub
+		reverse_proxy spark-hub:4174
+	}
+
+	handle /hub/* {
+		reverse_proxy spark-hub:4174
+	}
+
+	handle {
+		reverse_proxy spark-web:4173
+	}
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+}

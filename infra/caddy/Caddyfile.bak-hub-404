@@ -1,0 +1,28 @@
+{
+	# Provider-managed HTTPS mode.
+	# The hosting provider terminates public HTTPS before traffic reaches this server.
+	# Caddy serves HTTP internally and reverse-proxies to Spark services.
+	auto_https off
+}
+
+http://{$SPARK_DOMAIN} {
+	encode zstd gzip
+
+	@api path /v1/* /health/*
+	reverse_proxy @api spark-api:8787
+
+	@hubRoot path /hub
+	redir @hubRoot /hub/ 308
+
+	handle_path /hub/* {
+		reverse_proxy spark-hub:4174
+	}
+
+	reverse_proxy spark-web:4173
+
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+}

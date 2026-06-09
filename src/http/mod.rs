@@ -41,13 +41,13 @@ pub fn router(config: &AppConfig) -> Router<AppState> {
 async fn root() -> Json<RootResponse> {
     Json(RootResponse {
         service: "Karyra Spark API",
-        phase: "learning-lab-progress-api",
+        phase: "beta-readiness-api",
         frontend: "SvelteKit",
         backend: "Rust/Axum",
         database: "PostgreSQL + SQLx",
         storage: "S3-compatible self-hosted storage: MinIO/Garage first",
-        auth: "httpOnly cookie session + system proof ledger",
-        progress: "authenticated Core/Learn and Lab progress records",
+        auth: "httpOnly cookie sessions",
+        progress: "authenticated learning, lab, passport, community, and hub records",
     })
 }
 

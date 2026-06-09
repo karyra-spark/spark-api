@@ -19,3 +19,26 @@
 .DS_Store
 .vscode/
 .idea/
+
+# Public repo hygiene: pass, helper, and backup artifacts
+pass-*/
+pass-*.zip
+*.patch
+*.patch.tmp
+.pass-backups/
+.karyra-pass-backups/
+helper.txt
+helper-*.txt
+scratch.*
+scratch/
+*.bak
+*.orig
+*.rej
+*.tmp
+*.swp
+*~
+screenshots/
+*.png.local
+*.jpg.local
+*.jpeg.local
+*.webp.local

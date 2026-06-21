@@ -440,11 +440,8 @@ Keep commits focused and describe the domain area being changed, such as auth, p
 
 ---
 
-## License
 
-This repository does not yet include an explicit license file. Until one is added, all rights remain with the contributors. Please open an issue to discuss terms before reusing or forking this project.
 
----
 
 *Spark API — backend foundation for Karyra Spark.*  
 *© 2026 Karyra Spark*
